@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "252164492532",
+    "firebase_url": "https://betateacher-57ee3.firebaseio.com",
+    "project_id": "betateacher-57ee3",
+    "storage_bucket": "betateacher-57ee3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:252164492532:android:dba6962f9a78e4bcc022a1",
+        "android_client_info": {
+          "package_name": "com.example.betateacher"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "252164492532-k33akm1b8dr0n0aadde5mp39u1ll3k1d.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.betateacher",
+            "certificate_hash": "8d3eec5bc14b38f6e700c27d0e510fb4d311e2d8"
+          }
+        },
+        {
+          "client_id": "252164492532-9dnc3qq621e18md9rts8k3pretrg1bjc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD4gI5fd1L1FvGr_7e3PENAkuWSBEfpkPU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "252164492532-9dnc3qq621e18md9rts8k3pretrg1bjc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
