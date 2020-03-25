@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
     Intent t;
@@ -14,7 +15,6 @@ public class MainActivity extends AppCompatActivity {
 
         t=new Intent(MainActivity.this , LoginActivty.class);
         startActivity(t);
-
     }
 
 
