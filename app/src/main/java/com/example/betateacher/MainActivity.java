@@ -13,7 +13,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Toast.makeText(this, "Hi", Toast.LENGTH_SHORT).show();
         t=new Intent(MainActivity.this , LoginActivty.class);
         startActivity(t);
 
