@@ -48,10 +48,11 @@ public class LoginActivty extends AppCompatActivity {
     EditText eTname, eTphone, eTemail, eTcode;
     CheckBox cBstayconnect;
     Button btn, btnVerify;
+    Student cu;
     Switch Switch;
 
     private String mVerificationId;
-    String name, phone, email, uid;
+    String name, phone, email, uid,CN;
     User userdb;
     Boolean stayConnect, registered, firstrun, Customer;
     Boolean mVerificationInProgress = false;
@@ -82,7 +83,6 @@ public class LoginActivty extends AppCompatActivity {
         tVmanager = findViewById(R.id.textView3);
         btn = findViewById(R.id.btn);
         btnVerify = findViewById(R.id.button2);
-
         stayConnect = false;
         registered = true;
 
@@ -298,16 +298,19 @@ public class LoginActivty extends AppCompatActivity {
                         if (Switch.isChecked()) {
                             Customer = true;
                         }
-                        else Customer = false;
+                        else
+                            Customer = false;
                         userdb = new User(name, email, phone, uid);
-                        if
-                        (Customer){ refUsers.child("customer").child(name).setValue(userdb);
+
+                        if (Customer) {
+                            refUsers.child("customer").child(phone).setValue(userdb);
                             Toast.makeText(LoginActivty.this, "Successful registration", Toast.LENGTH_LONG).show();
                             Intent si = new Intent(LoginActivty.this, StudentActivity.class);
                             startActivity(si);
                         }
+
                         else {
-                            refUsers.child("Managers").child(name).setValue(userdb);
+                            refUsers.child("Managers").child(phone).setValue(userdb);
                             Toast.makeText(LoginActivty.this, "Successful registration", Toast.LENGTH_LONG).show();
                             Intent si = new Intent(LoginActivty.this, StudentActivity.class);
                             startActivity(si);
