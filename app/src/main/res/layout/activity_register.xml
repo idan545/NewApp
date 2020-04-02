@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".LoginActivty">
+    tools:context=".RegisterActivty">
 
     <Space
         android:layout_width="0dp"
@@ -186,7 +186,7 @@
                 android:layout_weight="5"
                 android:onClick="logorreg"
                 android:text="register"
-                tools:ignore="OnClick"/>
+                tools:ignore="OnClick" />
 
             <Space
                 android:layout_width="0dp"

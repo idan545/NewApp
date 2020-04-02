@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void toregister(View view) {
-        t = new Intent(MainActivity.this, LoginActivty.class);
+        t = new Intent(MainActivity.this, RegisterActivty.class);
         startActivity(t);
     }
 }

@@ -12,7 +12,7 @@
         <activity android:name=".RegisterActivity"></activity>
         <activity android:name=".TeacherActivity" />
         <activity android:name=".OrdersActivity" />
-        <activity android:name=".LoginActivty" />
+        <activity android:name=".RegisterActivty" />
         <activity android:name=".Student" />
         <activity android:name=".StudentActivity" />
         <activity android:name=".CreditsActivity" />

@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Switch;
@@ -21,7 +20,7 @@ import static com.example.betateacher.FBref.refStudents;
 import static com.example.betateacher.FBref.refTeachers;
 
 
-public class LoginActivty extends AppCompatActivity{
+public class RegisterActivty extends AppCompatActivity{
     // implements AdapterView.OnItemSelectedListener {
     Switch s;
     EditText eTname, eTphone, eTcl, eTexp, eTab;
@@ -71,11 +70,11 @@ public class LoginActivty extends AppCompatActivity{
     public void SpinnerSwitch(View v) {
         if (s.isChecked()) {
             stu = true;
-            Toast.makeText(LoginActivty.this, "Hello Student", Toast.LENGTH_LONG).show();
+            Toast.makeText(RegisterActivty.this, "Hello Student", Toast.LENGTH_LONG).show();
         }
         if (!s.isChecked()){
             stu = false;
-            Toast.makeText(LoginActivty.this, "Hello Teacher", Toast.LENGTH_LONG).show();
+            Toast.makeText(RegisterActivty.this, "Hello Teacher", Toast.LENGTH_LONG).show();
 
         }
         if (stu) {
@@ -126,16 +125,16 @@ public class LoginActivty extends AppCompatActivity{
             student=new Student(name, SClass, phone, uid);
             refStudents.child("Students").child(phone).setValue(student);
             ProgressDialog pd = ProgressDialog.show(this, "Register", "Registering...", true);
-            Toast.makeText(LoginActivty.this, "Successful registration", Toast.LENGTH_LONG).show();
-            Intent si = new Intent(LoginActivty.this, CreditsActivity.class);
+            Toast.makeText(RegisterActivty.this, "Successful registration", Toast.LENGTH_LONG).show();
+            Intent si = new Intent(RegisterActivty.this, CreditsActivity.class);
             startActivity(si);
         }
         else {
             teacher=new Teacher(name, phone, Experience, About,uid);
             refTeachers.child("Teachers").child(phone).setValue(teacher);
             ProgressDialog pd = ProgressDialog.show(this, "Register", "Registering...", true);
-            Toast.makeText(LoginActivty.this, "Successful registration", Toast.LENGTH_LONG).show();
-            Intent si = new Intent(LoginActivty.this, CreditsActivity.class);
+            Toast.makeText(RegisterActivty.this, "Successful registration", Toast.LENGTH_LONG).show();
+            Intent si = new Intent(RegisterActivty.this, CreditsActivity.class);
             startActivity(si);
         }
     }
