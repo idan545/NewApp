@@ -1,333 +1,132 @@
 package com.example.betateacher;
 
-
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.text.SpannableString;
-import android.text.Spanned;
-import android.text.TextUtils;
-import android.text.method.LinkMovementMethod;
-import android.text.style.ClickableSpan;
-import android.util.Log;
 import android.view.View;
-import android.widget.Button;
-import android.widget.CheckBox;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Switch;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.FirebaseException;
-import com.google.firebase.FirebaseTooManyRequestsException;
-import com.google.firebase.auth.AuthResult;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
-import com.google.firebase.auth.FirebaseAuthUserCollisionException;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthProvider;
 
-import java.util.concurrent.TimeUnit;
+import static com.example.betateacher.FBref.refStudents;
+import static com.example.betateacher.FBref.refTeachers;
 
-import static com.example.betateacher.FBref.refAuth;
-import static com.example.betateacher.FBref.refUsers;
 
-public class LoginActivty extends AppCompatActivity {
-
-    private static final String TAG = "Phone";
-
-    TextView tVtitle, tVregister, tVcustomer, tVmanager;
-    EditText eTname, eTphone, eTemail, eTcode;
-    CheckBox cBstayconnect;
-    Button btn, btnVerify;
-    Student cu;
-    Switch Switch;
-
+public class LoginActivty extends AppCompatActivity{
+    // implements AdapterView.OnItemSelectedListener {
+    Switch s;
+    EditText eTname, eTphone, eTcode, eTcl,eTexp,eTab;
+    String name, phone, SClass, uid, Experience, About, TypeCar, text;
+    Spinner spinner;
+    boolean tea;
+    FirebaseAuth mAuth;
+    Student student;
+    Teacher teacher;
+    PhoneAuthCredential c;
     private String mVerificationId;
-    String name, phone, email, uid,CN;
-    User userdb;
-    Boolean stayConnect, registered, firstrun, Customer;
     Boolean mVerificationInProgress = false;
 
-    PhoneAuthCredential c;
+    private static final String TAG = "Phone";
     PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallbacks;
-    FirebaseAuth mAuth;
-
-
-
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
-
-
-        tVtitle = findViewById(R.id.tVtitle);
-        eTname = findViewById(R.id.eTname);
-        eTemail = findViewById(R.id.eTemail);
+        setContentView(R.layout.activity_register);
+        mAuth = FirebaseAuth.getInstance();
         eTphone = findViewById(R.id.eTphone);
         eTcode = findViewById(R.id.eTcode);
-        cBstayconnect = findViewById(R.id.cBstayconnect);
-        tVregister = findViewById(R.id.tVregister);
-        tVcustomer = findViewById(R.id.textView2);
-        Switch = findViewById(R.id.switch1);
-        tVmanager = findViewById(R.id.textView3);
-        btn = findViewById(R.id.btn);
-        btnVerify = findViewById(R.id.button2);
-        stayConnect = false;
-        registered = true;
+        eTab = findViewById(R.id.eTab);
+        eTname = findViewById(R.id.eTname);
+        eTexp = findViewById(R.id.eTexp);
+        eTcl = findViewById(R.id.eTcl);
+        s = findViewById(R.id.switch1);
+        spinner = findViewById(R.id.spinner1);
+  //      ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.numbers, android.R.layout.simple_spinner_item);
+    //    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+   //     spinner.setAdapter(adapter);
+  //      spinner.setOnItemSelectedListener(this);
 
-        SharedPreferences settings = getSharedPreferences("PREFS_NAME", MODE_PRIVATE);
-        firstrun = settings.getBoolean("firstRun", false);
-        Toast.makeText(this, "" + firstrun, Toast.LENGTH_SHORT).show();
-        if (firstrun) {
-            tVtitle.setText("Register");
-            eTname.setVisibility(View.VISIBLE);
-            eTemail.setVisibility(View.VISIBLE);
-            tVcustomer.setVisibility(View.VISIBLE);
-            Switch.setVisibility(View.VISIBLE);
-            tVmanager.setVisibility(View.VISIBLE);
-            eTcode.setVisibility(View.VISIBLE);
-            btnVerify.setVisibility(View.VISIBLE);
-            btn.setText("Register");
-            registered = false;
-            logoption();
-        } else regoption();
-
-        mAuth = FirebaseAuth.getInstance();
-
-        mCallbacks = new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
-            @Override
-            public void onVerificationCompleted(PhoneAuthCredential credential) {
-                c=credential;
-                Log.d(TAG, "onVerificationCompleted:" + credential);
-                mVerificationInProgress = false;
-                signInWithPhoneAuthCredential(credential);
-            }
-
-            @Override
-            public void onVerificationFailed(FirebaseException e) {
-                Log.w(TAG, "onVerificationFailed", e);
-                mVerificationInProgress = false;
-
-                if (e instanceof FirebaseAuthInvalidCredentialsException) {
-                    //etCode.setError("Invalid phone number.");
-                }
-                else
-                if (e instanceof FirebaseTooManyRequestsException) {
-                }
-            }
-
-            @Override
-            public void onCodeSent(@NonNull String verificationId,
-                                   @NonNull PhoneAuthProvider.ForceResendingToken token) {
-                Log.d(TAG, "onCodeSent:" + verificationId);
-                mVerificationId = verificationId;
-            }
-        };
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        SharedPreferences settings = getSharedPreferences("PREFS_NAME", MODE_PRIVATE);
-        Boolean isChecked = settings.getBoolean("stayConnect", false);
-        Intent si = new Intent(LoginActivty.this, CreditsActivity.class);
-        if (refAuth.getCurrentUser() != null && isChecked) {
-            stayConnect = true;
-            startActivity(si);
+
+/*    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        TypeCar = parent.getItemAtPosition(position).toString();
+        Toast.makeText(parent.getContext(), text, Toast.LENGTH_SHORT).show();
+    }
+*/
+    public void onNothingSelected(AdapterView<?> parent) {
+
+    }
+
+    public void SpinnerSwitch(View v) {
+        if (s.isChecked()) {
+            tea = true;
+            Toast.makeText(LoginActivty.this, "Hello Student", Toast.LENGTH_LONG).show();
         }
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        if (stayConnect) finish();
-    }
-
-
-    private void signInWithPhoneAuthCredential(PhoneAuthCredential credential) {
-        mAuth.signInWithCredential(credential)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            Log.d(TAG, "signInWithCredential:success");
-
-                            FirebaseUser user = task.getResult().getUser();
-
-                        } else {
-                            Log.w(TAG, "signInWithCredential:failure", task.getException());
-                            if (task.getException() instanceof FirebaseAuthInvalidCredentialsException) {
-                                eTcode.setError("Invalid code.");
-                            }
-
-                        }
-                    }
-                });
-    }
-
-    private void startPhoneNumberVerification(String phoneNumber) {
-        PhoneAuthProvider.getInstance().verifyPhoneNumber(
-                phoneNumber,        // Phone number to verify
-                60,                 // Timeout duration
-                TimeUnit.SECONDS,   // Unit of timeout
-                this,               // Activity (for callback binding)
-                mCallbacks);        // OnVerificationStateChangedCallbacks
-
-        mVerificationInProgress = true;
-    }
-
-
-    private boolean validatePhoneNumber() {
-        String phoneNumber = eTphone.getText().toString();
-        if (TextUtils.isEmpty(phoneNumber)) {
-            eTphone.setError("Invalid phone number.");
-            return false;
+        if (tea) {
+            spinner.setVisibility(View.VISIBLE);
+            eTexp.setVisibility(View.INVISIBLE);
+            eTab.setVisibility(View.INVISIBLE);
         }
-        return true;
-    }
-
-    private void regoption() {
-        SpannableString ss = new SpannableString("Don't have an account?  Register here!");
-        ClickableSpan span = new ClickableSpan() {
-            @Override
-            public void onClick(View textView) {
-                tVtitle.setText("Register");
-                eTname.setVisibility(View.VISIBLE);
-                eTemail.setVisibility(View.VISIBLE);
-                tVcustomer.setVisibility(View.VISIBLE);
-                Switch.setVisibility(View.VISIBLE);
-                eTcode.setVisibility(View.VISIBLE);
-                btnVerify.setVisibility(View.VISIBLE);
-                tVmanager.setVisibility(View.VISIBLE);
-                btn.setText("Register");
-                registered = false;
-                logoption();
-            }
-        };
-        ss.setSpan(span, 24, 38, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        tVregister.setText(ss);
-        tVregister.setMovementMethod(LinkMovementMethod.getInstance());
-    }
-
-    private void logoption() {
-        SpannableString ss = new SpannableString("Already have an account?  Login here!");
-        ClickableSpan span = new ClickableSpan() {
-            @Override
-            public void onClick(View textView) {
-                tVtitle.setText("Login");
-                eTname.setVisibility(View.INVISIBLE);
-                eTphone.setVisibility(View.INVISIBLE);
-                btn.setText("Login");
-                registered = true;
-                regoption();
-            }
-        };
-        ss.setSpan(span, 26, 37, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        tVregister.setText(ss);
-        tVregister.setMovementMethod(LinkMovementMethod.getInstance());
-    }
-
-
-    public void Verify(View view) {
-        if (!validatePhoneNumber()) {
-            return;
-        }
-        startPhoneNumberVerification(eTphone.getText().toString());
     }
 
     public void logorreg(View view) {
-        phone = eTphone.getText().toString();
-        if (registered) {
-            final ProgressDialog pd = ProgressDialog.show(this, "Login", "Connecting...", true);
-            refAuth.signInWithCredential(c)
-                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            pd.dismiss();
-                            if (task.isSuccessful()) {
-                                SharedPreferences settings = getSharedPreferences("PREFS_NAME", MODE_PRIVATE);
-                                SharedPreferences.Editor editor = settings.edit();
-                                editor.putBoolean("stayConnect", cBstayconnect.isChecked());
-                                editor.commit();
-                                Log.d("MainActivity", "signinUserWithEmail:success");
-                                Toast.makeText(LoginActivty.this, "Login Success", Toast.LENGTH_LONG).show();
-                                Intent si = new Intent(LoginActivty.this, CreditsActivity.class);
-                                startActivity(si);
-                            } else {
-                                Log.d("MainActivity", "signinUserWithEmail:fail");
-                                Toast.makeText(LoginActivty.this, "e-mail or password are wrong!", Toast.LENGTH_LONG).show();
-                            }
-                        }
-                    });
-        } else {
+        if(!tea) {
             name = eTname.getText().toString();
-            email = eTemail.getText().toString();
+            SClass = eTcl.getText().toString();
             phone = eTphone.getText().toString();
             final ProgressDialog pd = ProgressDialog.show(this, "Register", "Registering...", true);
-            startPhoneNumberVerification(phone);
-            String code = eTcode.getText().toString();
-            if (TextUtils.isEmpty(code)) {
-                eTcode.setError("Cannot be empty.");
-                return;
-            }
-            PhoneAuthCredential credential = PhoneAuthProvider.getCredential(mVerificationId, code);
-            refAuth.signInWithCredential(credential).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                @Override
-                public void onComplete(@NonNull Task<AuthResult> task) {
-                    if (task.isSuccessful()) {
-                        pd.dismiss();
-                        SharedPreferences settings = getSharedPreferences("PREFS_NAME", MODE_PRIVATE);
-                        SharedPreferences.Editor editor = settings.edit();
-                        editor.putBoolean("stayConnect", cBstayconnect.isChecked());
-                        editor.putBoolean("firstRun", false);
-                        editor.commit();
-                        Log.d("MainActivity", "createUserWithEmail:success");
-                        FirebaseUser user = refAuth.getCurrentUser();
-                        uid = user.getUid();
-                        if (Switch.isChecked()) {
-                            Customer = true;
-                        }
-                        else
-                            Customer = false;
-                        userdb = new User(name, email, phone, uid);
+            if (name.isEmpty()) eTname.setError("you must enter a name");
+            if (phone.isEmpty()) eTphone.setError("you must enter a phone number");
+            if (SClass.isEmpty())eTcl.setError("you must enter your class:");
+            upload();
 
-                        if (Customer) {
-                            refUsers.child("customer").child(phone).setValue(userdb);
-                            Toast.makeText(LoginActivty.this, "Successful registration", Toast.LENGTH_LONG).show();
-                            Intent si = new Intent(LoginActivty.this, StudentActivity.class);
-                            startActivity(si);
-                        }
+        }
+        else {
+            name = eTname.getText().toString();
+            Experience = eTexp.getText().toString();
+            About = eTab.getText().toString();
+            SClass = eTcl.getText().toString();
+            phone = eTphone.getText().toString();
+            if (name.isEmpty()) eTname.setError("you must enter a name");
+            if (About.isEmpty()) eTab.setError("you must enter something about yourself");
+            if (Experience.isEmpty()) eTexp.setError("you must enter your experience in school subjects!");
+            if (phone.isEmpty()) eTphone.setError("you must enter a phone number");
+            if (SClass.isEmpty())eTcl.setError("you must enter your class!");
 
-                        else {
-                            refUsers.child("Managers").child(phone).setValue(userdb);
-                            Toast.makeText(LoginActivty.this, "Successful registration", Toast.LENGTH_LONG).show();
-                            Intent si = new Intent(LoginActivty.this, StudentActivity.class);
-                            startActivity(si);
-                        }
+            final ProgressDialog pd = ProgressDialog.show(this, "Register", "Registering...", true);
+            upload();
+        }
 
-                    } else {
-                        if (task.getException() instanceof FirebaseAuthInvalidCredentialsException) {
-                            eTcode.setError("Invalid code.");
-                        }
-                        else {
-                            Log.w("MainActivity", "createUserWithCredential:failure", task.getException());
-                            Toast.makeText(LoginActivty.this, "User create failed.", Toast.LENGTH_LONG).show();
-                        }
 
-                    }
-                }
-            });
+    }
+    public  void  upload(){
+        if (tea) {
+            student=new Student(name, SClass, phone, uid);
+            refStudents.child("Students").child(phone).setValue(student);
+            ProgressDialog pd = ProgressDialog.show(this, "Register", "Registering...", true);
+            Toast.makeText(LoginActivty.this, "Successful registration", Toast.LENGTH_LONG).show();
+            Intent si = new Intent(LoginActivty.this, CreditsActivity.class);
+            startActivity(si);
+        }
+        else {
+            teacher=new Teacher(name, phone, Experience, About,uid);
+            refTeachers.child("Teachers").child(phone).setValue(teacher);
+            ProgressDialog pd = ProgressDialog.show(this, "Register", "Registering...", true);
+            Toast.makeText(LoginActivty.this, "Successful registration", Toast.LENGTH_LONG).show();
+            Intent si = new Intent(LoginActivty.this, CreditsActivity.class);
+            startActivity(si);
         }
     }
 

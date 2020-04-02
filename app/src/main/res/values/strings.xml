@@ -1,3 +1,9 @@
 <resources>
-    <string name="app_name">BetaTeacher</string>
+    <string name="app_name">test</string>
+    <string-array name="numbers">
+        <item>small</item>
+        <item>medium</item>
+        <item>big</item>
+
+    </string-array>
 </resources>

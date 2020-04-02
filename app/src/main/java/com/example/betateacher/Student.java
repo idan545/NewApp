@@ -1,10 +1,10 @@
 package com.example.betateacher;
 
 public class Student {
-    private String FullName, SClass,Pic,Phone,uid;
+    private String FullName, SClass,Phone,uid;
 
     public Student(String Fullname, String uid){}
-    public Student (String FullName, String SClass,String Phone) {
+    public Student (String FullName, String SClass,String Phone,String uid) {
         this.FullName=FullName;
         this.SClass=SClass;
         this.Phone=Phone;
@@ -27,7 +27,7 @@ public class Student {
     public void setUid(String uid) {
         this.uid=uid;
     }
-    public String getstudentclass(){
+    public String getStudentClass(){
         return SClass;
     }
 
