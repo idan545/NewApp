@@ -10,6 +10,7 @@ import com.google.firebase.storage.StorageReference;
 public class FBref {
     public static FirebaseAuth refAuth=FirebaseAuth.getInstance();
     public static FirebaseDatabase FBDB = FirebaseDatabase.getInstance();
+    public static DatabaseReference refOffer=FBDB.getReference("LessonOffer");
     public static DatabaseReference refStudents=FBDB.getReference("Students");
     public static DatabaseReference refTeachers=FBDB.getReference("Teachers");
     public static FirebaseStorage FBST = FirebaseStorage.getInstance();

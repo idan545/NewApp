@@ -1,24 +1,27 @@
 package com.example.betateacher;
 
 public class Student {
-    private String FullName, SClass,Phone,uid;
+    private String name, SClass,Phone,uid;
 
-    public Student(String Fullname, String uid){}
+    public Student(){}
     public Student (String FullName, String SClass,String Phone,String uid) {
-        this.FullName=FullName;
+        this.name=FullName;
         this.SClass=SClass;
         this.Phone=Phone;
         this.uid=uid;
     }
     public String getName() {
-        return FullName;
+        return name;
     }
 
     public void setName(String name) {
-        this.FullName=FullName;
+        this.name=name;
     }
     public void setPhone(String phone) {
         this.Phone=phone;
+    }
+    public String getPhone() {
+        return Phone;
     }
     public String getUid() {
         return uid;
@@ -29,6 +32,9 @@ public class Student {
     }
     public String getStudentClass(){
         return SClass;
+    }
+    public void setStudentClass(){
+        this.SClass=SClass;
     }
 
 }

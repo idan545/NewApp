@@ -1,29 +1,35 @@
 package com.example.betateacher;
 
 public class Teacher {
-    private String FullName, SClass,Pic,Phone,uid,Experience,About;
+    private String name,phone,Experience,About,uid;
 
-    public Teacher(String Fullname, String uid){}
+    public Teacher (){}
     public Teacher (String FullName,String Phone,String Experience,String About,String uid) {
-        this.FullName=FullName;
-        this.Phone=Phone;
+        this.name=FullName;
+        this.phone=Phone;
         this.Experience=Experience;
         this.uid=uid;
         this.About=About;
 
     }
     public String getName() {
-        return FullName;
+        return name;
     }
 
     public void setName(String FullName) {
-        this.FullName=FullName;
+        this.name=FullName;
     }
     public void setPhone(String phone) {
-        this.Phone=phone;
+        this.phone=phone;
+    }
+    public String getPhone() {
+        return phone;
     }
     public String getUid() {
         return uid;
+    }
+    public void setUid(String uid) {
+        this.uid=uid;
     }
     public void setAbout(String About){
         this.About=About;
@@ -38,8 +44,6 @@ public class Teacher {
         return Experience;
     }
 
-    public void setUid(String uid) {
-        this.uid=uid;
-    }
+
 
 }

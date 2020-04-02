@@ -67,11 +67,25 @@
                 android:textColor="@android:color/black"
                 android:visibility="visible" />
         </LinearLayout>
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.3" />
+
+        <EditText
+            android:id="@+id/eTcl"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:ems="10"
+            android:hint="Enter class"
+            android:inputType="number|text"
+            android:visibility="visible" />
 
         <Space
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="0.5" />
+            android:layout_weight="0.3" />
 
         <EditText
             android:id="@+id/eTname"
@@ -82,6 +96,11 @@
             android:ems="10"
             android:hint="name"
             android:inputType="textPersonName" />
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.3" />
+
 
 
         <LinearLayout
@@ -107,31 +126,6 @@
             android:layout_height="0dp"
             android:layout_weight="0.3" />
 
-
-        <EditText
-            android:id="@+id/eTcode"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:ems="10"
-            android:hint="code"
-            android:inputType="phone"
-            android:visibility="visible" />
-
-
-        <EditText
-            android:id="@+id/eTcl"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:ems="10"
-            android:hint="Enter class"
-            android:inputType="number|text"
-            android:visibility="visible" />
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="0.3" />
 
         <EditText
             android:id="@+id/eTexp"
@@ -172,21 +166,6 @@
             app:layout_constraintTop_toTopOf="parent" />
 
 
-        <CheckBox
-            android:id="@+id/cBstayconnect"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:text="Stay Connected" />
-
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1" />
-
-
-
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -206,7 +185,8 @@
                 android:layout_height="match_parent"
                 android:layout_weight="5"
                 android:onClick="logorreg"
-                android:text="register" />
+                android:text="register"
+                tools:ignore="OnClick"/>
 
             <Space
                 android:layout_width="0dp"

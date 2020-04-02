@@ -24,10 +24,10 @@ import static com.example.betateacher.FBref.refTeachers;
 public class LoginActivty extends AppCompatActivity{
     // implements AdapterView.OnItemSelectedListener {
     Switch s;
-    EditText eTname, eTphone, eTcode, eTcl,eTexp,eTab;
+    EditText eTname, eTphone, eTcl, eTexp, eTab;
     String name, phone, SClass, uid, Experience, About, TypeCar, text;
     Spinner spinner;
-    boolean tea;
+    boolean stu = false;
     FirebaseAuth mAuth;
     Student student;
     Teacher teacher;
@@ -45,7 +45,6 @@ public class LoginActivty extends AppCompatActivity{
         setContentView(R.layout.activity_register);
         mAuth = FirebaseAuth.getInstance();
         eTphone = findViewById(R.id.eTphone);
-        eTcode = findViewById(R.id.eTcode);
         eTab = findViewById(R.id.eTab);
         eTname = findViewById(R.id.eTname);
         eTexp = findViewById(R.id.eTexp);
@@ -71,18 +70,31 @@ public class LoginActivty extends AppCompatActivity{
 
     public void SpinnerSwitch(View v) {
         if (s.isChecked()) {
-            tea = true;
+            stu = true;
             Toast.makeText(LoginActivty.this, "Hello Student", Toast.LENGTH_LONG).show();
         }
-        if (tea) {
+        if (!s.isChecked()){
+            stu = false;
+            Toast.makeText(LoginActivty.this, "Hello Teacher", Toast.LENGTH_LONG).show();
+
+        }
+        if (stu) {
             spinner.setVisibility(View.VISIBLE);
             eTexp.setVisibility(View.INVISIBLE);
             eTab.setVisibility(View.INVISIBLE);
+            eTcl.setVisibility(View.VISIBLE);
+        }
+        else{
+            spinner.setVisibility(View.INVISIBLE);
+            eTcl.setVisibility(View.INVISIBLE);
+            eTexp.setVisibility(View.VISIBLE);
+            eTab.setVisibility(View.VISIBLE);
+
         }
     }
 
     public void logorreg(View view) {
-        if(!tea) {
+        if(stu) {
             name = eTname.getText().toString();
             SClass = eTcl.getText().toString();
             phone = eTphone.getText().toString();
@@ -97,13 +109,11 @@ public class LoginActivty extends AppCompatActivity{
             name = eTname.getText().toString();
             Experience = eTexp.getText().toString();
             About = eTab.getText().toString();
-            SClass = eTcl.getText().toString();
             phone = eTphone.getText().toString();
             if (name.isEmpty()) eTname.setError("you must enter a name");
             if (About.isEmpty()) eTab.setError("you must enter something about yourself");
             if (Experience.isEmpty()) eTexp.setError("you must enter your experience in school subjects!");
             if (phone.isEmpty()) eTphone.setError("you must enter a phone number");
-            if (SClass.isEmpty())eTcl.setError("you must enter your class!");
 
             final ProgressDialog pd = ProgressDialog.show(this, "Register", "Registering...", true);
             upload();
@@ -112,7 +122,7 @@ public class LoginActivty extends AppCompatActivity{
 
     }
     public  void  upload(){
-        if (tea) {
+        if (stu) {
             student=new Student(name, SClass, phone, uid);
             refStudents.child("Students").child(phone).setValue(student);
             ProgressDialog pd = ProgressDialog.show(this, "Register", "Registering...", true);
