@@ -20,6 +20,7 @@ public class MainActivity extends AppCompatActivity {
     String phone, code, mVerificationId, uid = "";
     EditText eTphone, eTcode;
     FirebaseUser user;
+    private FirebaseAuth mAuth;
     ValueEventListener usersListener;
 
 
@@ -32,9 +33,11 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        setContentView(R.layout.activity_orders);
+        mAuth = FirebaseAuth.getInstance();
         eTphone = (EditText) findViewById(R.id.eTcode);
         eTcode = (EditText) findViewById(R.id.eTcode);
+        cbStayConnect = findViewById(R.id.cBstayconnect);
         stayConnect = false;
         registered = false;
     }

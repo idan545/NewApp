@@ -126,7 +126,7 @@ public class RegisterActivty extends AppCompatActivity{
             refStudents.child("Students").child(phone).setValue(student);
             ProgressDialog pd = ProgressDialog.show(this, "Register", "Registering...", true);
             Toast.makeText(RegisterActivty.this, "Successful registration", Toast.LENGTH_LONG).show();
-            Intent si = new Intent(RegisterActivty.this, CreditsActivity.class);
+            Intent si = new Intent(RegisterActivty.this, MainActivity.class);
             startActivity(si);
         }
         else {
@@ -134,7 +134,7 @@ public class RegisterActivty extends AppCompatActivity{
             refTeachers.child("Teachers").child(phone).setValue(teacher);
             ProgressDialog pd = ProgressDialog.show(this, "Register", "Registering...", true);
             Toast.makeText(RegisterActivty.this, "Successful registration", Toast.LENGTH_LONG).show();
-            Intent si = new Intent(RegisterActivty.this, CreditsActivity.class);
+            Intent si = new Intent(RegisterActivty.this, MainActivity.class);
             startActivity(si);
         }
     }
